@@ -1,8 +1,11 @@
+//mapbox api key and link
 var mapBox = "https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?" + 
 "access_token=pk.eyJ1Ijoic2pyb2phbm8iLCJhIjoiY2tqcHpobTljMWQybjJ4bGVoY3RmYWVpOSJ9.gHa1inmOrpUBLiij5Ce34w";
 
+//url to query all of the historic earthquake data 
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.geojson";
 
+//geojson data of the tectonic 
 var platesUrl = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/PB2002_plates.json";
 
 
@@ -122,6 +125,13 @@ function createFeatures(earthquakeData, platesData) {
     "fillOpacity": 0
   }
 
+  platesData = L.geoJSON(platesData, {style: faultLines});
 
 
-}
+  // Define a baseMaps object to hold our base layers
+  var baseMaps = {
+      "Satellite": satellitemap,
+      "Grayscale": lightmap,
+      "Outdoors": streetmap
+  };
+
