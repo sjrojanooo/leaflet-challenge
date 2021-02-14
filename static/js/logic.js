@@ -118,7 +118,7 @@ function features(earthquakeData, platesData) {
   "T6YbdDixkOBWH_k9GbS8JQ");
 
   
-  var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?" + 
+  var satellitemap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v9/tiles/256/{z}/{x}/{y}?" + 
   "access_token=pk.eyJ1IjoiamVubnljaGluNjUwIiwiYSI6ImNqZHdnbGEzbDQzazAzNHFoaXNzenR4Z2MifQ.Tjt7336QJMX553gETPX9Ag");
 
   var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?" +
@@ -133,12 +133,12 @@ function features(earthquakeData, platesData) {
     "fillOpacity": 0
   }
 
-  plates = L.geoJSON(plates, {style: faultLines});
+  platesData = L.geoJSON(platesData, {style: faultLines});
 
 
   // Define a baseMaps object to hold  base layers
   var base = {
-      "Satellite": satellite,
+      "Satellite": satellitemap,
       "Grayscale": lightmap,
       "Outdoors": streetmap
   };
@@ -146,13 +146,13 @@ function features(earthquakeData, platesData) {
   // Create overlay object to hold  overlay layer
   var overlay = {
       Earthquakes: earthquakes,
-      Faultlines: plates
+      Faultlines: platesData
   };
 
   var myMap = L.map("map", {
     center: [40.851824075995296, -116.39751334605495],
     zoom: 4,
-    layers: [satellite, earthquakes, plates]
+    layers: [satellitemap, earthquakes, platesData]
   });
 
   L.tileLayer(mapBox).addTo(myMap);
@@ -175,7 +175,7 @@ function features(earthquakeData, platesData) {
            data < 5 ? "darkorange":
                       "red";
   }
-  ///creating our legen
+  ///creating our legend
   var legend = L.control({position: "bottomright"});
 
   legend.onAdd = function (map) {
@@ -190,7 +190,7 @@ function features(earthquakeData, platesData) {
 
       return div;
   };
-
+  // adding the legend to the map 
   legend.addTo(myMap);
 
   var timeInterval = function (earthquakeData) {
@@ -203,7 +203,8 @@ function features(earthquakeData, platesData) {
       return new Date(date).toString();
     }
   });
-
+  //adding timeline slider control
+  //it can only be added to L.map 
   timeline.addTo(myMap);
   timeInterval.addTo(myMap);
 
